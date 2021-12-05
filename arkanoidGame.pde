@@ -3,10 +3,17 @@
  * Fundamentos físicos de la multimedia.
  * Natalia Justicia Villanueva
  * 
- * El objetivo de la práctica es crear 
- * una especie de juego similar al Arkanoid.
+ * Videojuego 'Arkanoid' donde el objetivo es 
+ * eliminar unos bloques, haciendo chocar contra ellos 
+ * una bola impulsada por una barra.
  */
 
+/*
+ * LEYES DE LA FÍSICA EMPLEADAS EN LA PRÁCTICA
+ *
+ * 1. Choques entre partículas con el Movimiento Rectilíneo Uniforme (MRU).
+ * 2. Refracción del fotón al pasar de un medio material a otro.
+ */
 
 float ballRadius = 25;          // tamaño del fotón
 float ballX;                    // posición x del fotón
@@ -71,12 +78,14 @@ void setup() {
  */
 void draw() {
   
+  // El juego todavía no ha empezado.
   if (gameState == 0) {
     drawBackground();
     fill(255);
     text("Toca el botón izquierdo del\nratón para empezar", width/2, height/2);
   }
   
+  // El juego ha empezado.
   else if (gameState == 1) {
     drawBackground();
     drawBlocks();
@@ -90,15 +99,18 @@ void draw() {
     textSize(40);
   }
   
+  // El jugador ha perdido todas sus vidas.
   else if (gameState == 2) {
     looseGame();
   }
   
+  // El jugador ha ganado y eliminado todos los bloques.
   else if (gameState == 3) {
     winGame();
   }
 
-  checkScore();
+  // Comprobamos la puntuación del jugador y el número de bloques.
+  checkGameState();
   
 }
 
@@ -132,7 +144,7 @@ void looseGame() {
   } 
   
   else {
-    text("Game Over\nToca ’r’ para reiniciar", width/2, height/2);
+    text("Game Over\nToca 'r' para reiniciar", width/2, height/2);
  }
  
 }
@@ -140,7 +152,7 @@ void looseGame() {
 /*
  * Función winGame().
  * 
- * Esta función es ejecutada cuando se ha perdido.
+ * Esta función es ejecutada cuando se ha ganado.
  */
 void winGame() {
   
@@ -149,14 +161,20 @@ void winGame() {
 }
 
 /*
- * Función checkScore().
+ * Función checkGameState().
  * 
- * Esta función comprueba las vidas disponibles del jugador.
+ * Esta función comprueba el estado del juego.
  */
-void checkScore() {
+void checkGameState() {
   
+  // Si el jugador no tiene vidas, ha perdido.
   if (score < 0) {
     gameState = 2;
+  }
+
+  // Si no quedan bloques, el jugador ha ganado.
+  if (blocks.size() == 0) {
+    gameState = 3;
   }
 
 }
@@ -164,7 +182,7 @@ void checkScore() {
 /*
  * Función mousePressed().
  * 
- * Esta función es ejecutada cuando una el ratón es pulsado.
+ * Esta función es ejecutada cuando el ratón es pulsado.
  */
 void mousePressed() {
   
@@ -203,7 +221,7 @@ void keyPressed() {
 /*
  * Función drawBackground().
  * 
- * Esta función dibuja el fondo de pantalla.
+ * Esta función dibuja el fondo de la pantalla.
  */
 void drawBackground() {
   
@@ -244,10 +262,6 @@ void drawBlocks() {
       break;
     }
   }
-  
-  if (blocks.size() == 0) {
-    gameState = 3;
-  }
 
 }
 
@@ -255,6 +269,8 @@ void drawBlocks() {
  * Función drawPaddle().
  * 
  * Esta función dibuja la pala.
+ * 
+ * TODO: Al rebotar con las esquinas la pelota realizará otro efecto.
  */
 void drawPaddle() {
 
@@ -274,7 +290,7 @@ void drawPaddle() {
 /*
  * Función drawPaddle().
  * 
- * Esta función dibuja la pelota.
+ * Esta función dibuja la pelota y controla su movimiento.
  */
 void drawBall() {
 
