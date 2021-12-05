@@ -24,7 +24,7 @@ float ar;                       // ángulo de refracción
 float arco;                     // ángulo de refracción con la horizontal
 float n;                        // índice de refracción
 float nold;                     // índice de refracción antiguo
-float paddleY = 450;            // posición y de la barra
+float paddleY = 440;            // posición y de la barra
 float paddleX = width/2;        // posición x de la barra
 float paddleWidth = 96;         // anchura de la barra
 float paddleHeight = 16;        // altura de la barra
@@ -58,13 +58,10 @@ void setup() {
   smooth();
   
   blocks = new ArrayList<Block>();
-  
-  ballX = width/2+ballRadius/2; 
-  ballY = height/2;
     
   // Inicializamos el juego.
   startGame();
- 
+
 }
 
 /*
@@ -75,10 +72,12 @@ void setup() {
 void draw() {
   
   if (gameState == 0) {
-    text("Start\nToca ’s’ para jugar", width/2, height/2);
+    drawBackground();
+    fill(255);
+    text("Toca el botón izquierdo del\nratón para empezar", width/2, height/2);
   }
   
-  if (gameState == 1) {
+  else if (gameState == 1) {
     drawBackground();
     drawBlocks();
     drawPaddle();
@@ -91,13 +90,15 @@ void draw() {
     textSize(40);
   }
   
-  if (gameState == 2) {
+  else if (gameState == 2) {
     looseGame();
   }
   
-  if (gameState == 3) {
+  else if (gameState == 3) {
     winGame();
   }
+
+  checkScore();
   
 }
 
@@ -126,10 +127,12 @@ void startGame() {
  */
 void looseGame() {
  
- if (score < 1) {
-   text("Game Over\nToca ’s’ para jugar de nuevo", width/2, height/2);
- } else {
-  text("Game Over\nToca ’r’ para reiniciar", width/2, height/2);
+  if (score < 1) {
+    text("Toco el botón izquierdo del\nratón para empezar", width/2, height/2);
+  } 
+  
+  else {
+    text("Game Over\nToca ’r’ para reiniciar", width/2, height/2);
  }
  
 }
@@ -146,22 +149,44 @@ void winGame() {
 }
 
 /*
+ * Función checkScore().
+ * 
+ * Esta función comprueba las vidas disponibles del jugador.
+ */
+void checkScore() {
+  
+  if (score < 0) {
+    gameState = 2;
+  }
+
+}
+
+/*
+ * Función mousePressed().
+ * 
+ * Esta función es ejecutada cuando una el ratón es pulsado.
+ */
+void mousePressed() {
+  
+  // Iniciamos el juego.
+  if (mousePressed && mouseButton == LEFT) {
+    blocks.clear();
+    startGame();
+    score = 3;
+    gameState = 1;
+  }
+
+}
+
+/*
  * Función keyPressed().
  * 
  * Esta función es ejecutada cuando una tecla es pulsada.
  */
 void keyPressed() {
   
-  // Iniciamos el juego.
-  if(keyPressed && (key == 's' || key == 'S')) {
-    blocks.clear();
-    startGame();
-    score = 3;
-    gameState = 1;
-  }
-  
   // Reiniciamos el juego.
-  if(keyPressed && (key == 'r' || key == 'R')) {
+  if (keyPressed && (key == 'r' || key == 'R')) {
     blocks.clear();
     startGame();
     score--;
@@ -169,12 +194,11 @@ void keyPressed() {
   }
   
   // Mostramos el nombre del autor del juego.
-  if(keyPressed && (key == 'n' || key == 'N')) {
+  if (keyPressed && (key == 'n' || key == 'N')) {
     text("Natalia Justicia Villanueva", width/2, height/2);
   }
 
 }
-
 
 /*
  * Función drawBackground().
@@ -241,9 +265,7 @@ void drawPaddle() {
   float max = paddleX + paddleWidth/2; 
   float min = paddleX - paddleWidth/2;
 
-  if(ballY > paddleY - paddleHeight/2  
-    && ballY < paddleY + paddleHeight/2 
-    && ballX < max && ballX > min) {
+  if (ballY > paddleY - paddleHeight/2 && ballY < paddleY + paddleHeight/2 && ballX < max && ballX > min) {
     ballYSpeed *= -1;
   }
 
@@ -265,9 +287,13 @@ void drawBall() {
   
   if (ballX > width || ballX < 0) {
     ballXSpeed *= -1;
-  } else if (ballY < 0) {
+  } 
+  
+  else if (ballY < 0) {
     ballYSpeed *= -1;
-  } else if (ballY > height) {
+  } 
+  
+  else if (ballY > height) {
     gameState = 2;
   }
 
