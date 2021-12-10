@@ -31,14 +31,15 @@ float ar;                       // ángulo de refracción
 float arco;                     // ángulo de refracción con la horizontal
 float n;                        // índice de refracción
 float nold;                     // índice de refracción antiguo
-float paddleY = 440;            // posición y de la barra
+float paddleY = 450;            // posición y de la barra
 float paddleX = width/2;        // posición x de la barra
 float paddleWidth = 96;         // anchura de la barra
 float paddleHeight = 16;        // altura de la barra
 int blockWidth = 32;            // anchura de los bloques
 int blockHeight = 16;           // altura de los bloques
 
-int score = 3;                  // puntuación
+int lifes = 3;                  // vidas
+int score = 0;                  // puntuación
 int gameState = 0;              // estado del juego
 int column = 16;                // número de columnas
 int row = 6;                    // número de filas
@@ -94,7 +95,8 @@ void draw() {
     
     textSize(15);
     textAlign(LEFT);
-    text("Vidas: " + score, 10, 470);
+    text("Vidas: " + lifes, 10, 470);
+    text("Puntos: " + score, 80, 470);
     textAlign(CENTER);
     textSize(40);
   }
@@ -139,7 +141,7 @@ void startGame() {
  */
 void looseGame() {
  
-  if (score < 1) {
+  if (lifes < 1) {
     text("Toco el botón izquierdo del\nratón para empezar", width/2, height/2);
   } 
   
@@ -168,7 +170,7 @@ void winGame() {
 void checkGameState() {
   
   // Si el jugador no tiene vidas, ha perdido.
-  if (score < 0) {
+  if (lifes < 0) {
     gameState = 2;
   }
 
@@ -190,7 +192,8 @@ void mousePressed() {
   if (mousePressed && mouseButton == LEFT) {
     blocks.clear();
     startGame();
-    score = 3;
+    lifes = 3;
+    score = 0;
     gameState = 1;
   }
 
@@ -207,7 +210,7 @@ void keyPressed() {
   if (keyPressed && (key == 'r' || key == 'R')) {
     blocks.clear();
     startGame();
-    score--;
+    lifes--;
     gameState = 1;
   }
   
@@ -246,16 +249,17 @@ void drawBlocks() {
   for (int i = blocks.size() - 1; i >= 0; i--) {
     Block block = blocks.get(i);
 
-    if (ballX >= block.blockL - ballRadius/2
-      && ballX <= block.blockR + ballRadius/2
-      && ballY >= block.blockU - ballRadius/2
-      && ballY <= block.blockD + ballRadius/2) {
-      if ((ballX - ballXSpeed < block.blockL || ballX - ballXSpeed > block.blockR) 
-        && ballY - ballYSpeed > block.blockU 
-        && ballY - ballYSpeed < block.blockD) {
+    if (ballX >= block.blockL - ballRadius/2 && ballX <= block.blockR + ballRadius/2 && ballY >= block.blockU - ballRadius/2 && ballY <= block.blockD + ballRadius/2) {
+      if ((ballX - ballXSpeed < block.blockL || ballX - ballXSpeed > block.blockR) && ballY - ballYSpeed > block.blockU && ballY - ballYSpeed < block.blockD) {
         ballXSpeed *= -1;
-      } else {
+        
+        score++;
+      } 
+      
+      else {
         ballYSpeed *= -1;
+        
+        score++;
       }
 
       blocks.remove(i);
@@ -276,12 +280,9 @@ void drawPaddle() {
 
   fill(255);
   rect(paddleX, paddleY, paddleWidth, paddleHeight);
-  paddleX = constrain(mouseX, paddleWidth/2, width- paddleWidth/2);
-  
-  float max = paddleX + paddleWidth/2; 
-  float min = paddleX - paddleWidth/2;
+  paddleX = constrain(mouseX, paddleWidth/2, width-paddleWidth/2);
 
-  if (ballY > paddleY - paddleHeight/2 && ballY < paddleY + paddleHeight/2 && ballX < max && ballX > min) {
+  if ((ballX > paddleX - paddleWidth/2) && (ballX < paddleX + paddleWidth/2) && (ballY > paddleY - paddleHeight/2) && (ballY < paddleY)) {
     ballYSpeed *= -1;
   }
 
