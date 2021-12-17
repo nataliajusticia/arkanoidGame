@@ -12,7 +12,14 @@
  * LEYES DE LA FÍSICA EMPLEADAS EN LA PRÁCTICA
  *
  * 1. Choques entre partículas con el Movimiento Rectilíneo Uniforme (MRU).
+ * Un choque elástico es un choque en el cual no hay pérdida de energía cinética 
+ * como resultado del choque. Tanto el momento como la energía cinética, son cantidades 
+ * que se conservan en los choques elásticos.
+ *
  * 2. Refracción del fotón al pasar de un medio material a otro (Ley de Snell).
+ * La refracción es el cambio de dirección que experimenta una onda al pasar de un medio material a otro. 
+ * Sólo se produce si la onda incide oblicuamente sobre la superficie de separación de los dos medios 
+ * y si estos tienen índices de refracción distintos.
  */
 
 float ballRadius = 25;          // tamaño del fotón
@@ -276,8 +283,6 @@ void drawBlocks() {
  * Función drawPaddle().
  * 
  * Esta función dibuja la pala.
- * 
- * TODO: Al rebotar con las esquinas la pelota realizará otro efecto.
  */
 void drawPaddle() {
 
