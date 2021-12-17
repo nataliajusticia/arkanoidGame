@@ -12,7 +12,7 @@
  * LEYES DE LA FÍSICA EMPLEADAS EN LA PRÁCTICA
  *
  * 1. Choques entre partículas con el Movimiento Rectilíneo Uniforme (MRU).
- * 2. Refracción del fotón al pasar de un medio material a otro.
+ * 2. Refracción del fotón al pasar de un medio material a otro (Ley de Snell).
  */
 
 float ballRadius = 25;          // tamaño del fotón
@@ -65,6 +65,7 @@ void setup() {
   // Dibujamos las figuras con contornos suavizados.
   smooth();
   
+  n = 1;
   blocks = new ArrayList<Block>();
     
   // Inicializamos el juego.
@@ -253,12 +254,14 @@ void drawBlocks() {
       if ((ballX - ballXSpeed < block.blockL || ballX - ballXSpeed > block.blockR) && ballY - ballYSpeed > block.blockU && ballY - ballYSpeed < block.blockD) {
         ballXSpeed *= -1;
         
+        // Cada vez que un bloque es golpeado, se suma un punto.
         score++;
       } 
       
       else {
         ballYSpeed *= -1;
         
+        // Cada vez que un bloque es golpeado, se suma un punto.
         score++;
       }
 
@@ -314,4 +317,44 @@ void drawBall() {
     gameState = 2;
   }
 
+}
+
+/*
+ * Block class.
+ *
+ * Clase para definir la funcionalidad de los bloques.
+ */ 
+public class Block {
+  
+  private float x;
+  private float y;
+  private int blockWidth;
+  private int blockHeight;
+  float blockU; 
+  float blockD; 
+  float blockL; 
+  float blockR;
+  
+  public Block(float x, float y, int blockWidth, int blockHeight){
+    
+    this.x = x;
+    this.y = y;
+    this.blockWidth = blockWidth;
+    this.blockHeight = blockHeight;
+    
+    blockU = y - blockHeight/2;    // hacia arriba
+    blockD = y + blockHeight/2;    // hacia abajo
+    blockL = x - blockWidth/2;     // hacia la izquierda
+    blockR = x + blockWidth/2;     // hacia la derecha
+    
+  }
+  
+  // Dibujamos los bloques.
+  public void draw() {
+    
+    fill(255);
+    rect(this.x, this.y, this.blockWidth, this.blockHeight);
+    
+  }
+  
 }
