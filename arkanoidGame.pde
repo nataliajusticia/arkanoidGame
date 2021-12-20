@@ -20,6 +20,9 @@
  * La refracción es el cambio de dirección que experimenta una onda al pasar de un medio material a otro. 
  * Sólo se produce si la onda incide oblicuamente sobre la superficie de separación de los dos medios 
  * y si estos tienen índices de refracción distintos.
+ *
+ *
+ * Certifico que he hecho esta Práctica de forma completamente individual y solo con la ayuda del PDC
  */
 
 float ballRadius = 25;          // tamaño del fotón
