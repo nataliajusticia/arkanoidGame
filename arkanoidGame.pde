@@ -12,7 +12,7 @@
  * LEYES DE LA FÍSICA EMPLEADAS EN LA PRÁCTICA
  *
  * 1. Choques entre partículas con el Movimiento Rectilíneo Uniforme (MRU).
- * Un choque elástico es un choque en el cual no hay pérdida de energía cinética 
+ * Un choque elástico es un choque en el que no se produce pérdida de energía cinética 
  * como resultado del choque. Tanto el momento como la energía cinética, son cantidades 
  * que se conservan en los choques elásticos.
  *
@@ -22,7 +22,7 @@
  * y si estos tienen índices de refracción distintos.
  *
  *
- * Certifico que he hecho esta Práctica de forma completamente individual y solo con la ayuda del PDC
+ * Certifico que he hecho esta Práctica de forma completamente individual y solo con la ayuda del PDC.
  */
 
 float ballRadius = 25;          // tamaño del fotón
@@ -293,7 +293,7 @@ void drawPaddle() {
   rect(paddleX, paddleY, paddleWidth, paddleHeight);
   paddleX = constrain(mouseX, paddleWidth/2, width-paddleWidth/2);
 
-  if ((ballX > paddleX - paddleWidth/2) && (ballX < paddleX + paddleWidth/2) && (ballY > paddleY - paddleHeight/2) && (ballY < paddleY)) {
+  if ((ballX >= paddleX - paddleWidth/2 - ballRadius/2) && (ballX <= paddleX + paddleWidth/2 + ballRadius/2) && (ballY >= paddleY - paddleHeight/2) && (ballY < paddleY)) {
     ballYSpeed *= -1;
   }
 
